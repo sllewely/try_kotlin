@@ -23,6 +23,10 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
         return Board(boardState.mapIndexed { i, it -> if (i == coordToPos(x, y)) playerKey else it })
     }
 
+    fun isOver(): Boolean {
+        
+    }
+
     fun coordToPos(x: Int, y: Int) = y * 3 + x
 
     fun stateAt(x: Int, y: Int) = boardState[coordToPos(x, y)]
