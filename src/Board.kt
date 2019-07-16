@@ -27,8 +27,6 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
         return Board(boardState.mapIndexed { i, it -> if (i == coordToPos(x, y)) getNextPlayer() else it })
     }
 
-    fun isOver() = hasPlayerWon(playerOneKey) || hasPlayerWon(playerTwoKey) || isTie()
-
     fun hasPlayerWon(playerKey: Char): Boolean {
         return WINNING_STATES.any {
                 winningState -> winningState.withIndex().all { (idx, v)  ->  !v || boardState[idx] == playerKey }
@@ -37,11 +35,11 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
 
     fun isTie() = boardState.all { it != null }
 
-    fun coordToPos(x: Int, y: Int) = y * 3 + x
+    private fun coordToPos(x: Int, y: Int) = y * 3 + x
 
-    fun stateAt(x: Int, y: Int) = boardState[coordToPos(x, y)]
+    private fun stateAt(x: Int, y: Int) = boardState[coordToPos(x, y)]
 
-    fun getTurnNumber() = boardState.filter { it != null }.count()
+    private fun getTurnNumber() = boardState.filter { it != null }.count()
 
     fun getNextPlayer() = if (getTurnNumber() % 2 == 0) playerOneKey else playerTwoKey
 
