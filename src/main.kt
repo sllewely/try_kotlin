@@ -34,9 +34,16 @@ fun gameLoop() {
 }
 
 fun makeMove(board: Board): Board {
-    val (a, b) = readLine()!!.split(' ')
-    println("${a.toInt()}  ${b.toInt()}")
-    return board.makeMove(a.toInt(), b.toInt())
+    while(true) {
+        println("Make move for player ${board.getNextPlayer()} with format: x y")
+        val (a, b) = readLine()!!.split(' ')
+        println("${a.toInt()}  ${b.toInt()}")
+        try {
+            return board.makeMove(a.toInt(), b.toInt())
+        } catch (e: InvalidMoveException) {
+            println(e.message)
+        }
+    }
 }
 
 fun makeMoveLoop(board: Board): Board {
