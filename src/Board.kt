@@ -1,4 +1,4 @@
-class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, null, null, null, null)) {
+class Board(private val boardState : List<Char?> = listOf(null, null, null, null, null, null, null, null, null)) {
     val playerOneKey = 'X'
     val playerTwoKey = 'Y'
 
