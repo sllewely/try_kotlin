@@ -41,6 +41,10 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
 
     fun stateAt(x: Int, y: Int) = boardState[coordToPos(x, y)]
 
+    fun getTurnNumber() = boardState.filter { it != null }.count()
+
+    fun getNextPlayer() = if (getTurnNumber() % 2 == 0) playerOneKey else playerTwoKey
+
 }
 
 val WINNING_STATES : List<List<Boolean>> = listOf(
