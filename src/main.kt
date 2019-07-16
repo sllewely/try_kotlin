@@ -30,19 +30,32 @@ fun main (args: Array<String>) {
 fun gameLoop() {
     println("Welcome to kotlin tic tac toe!")
 
-    val prevBoard = Board()
-
-    for (i in 1..3) {
-        getMove()
-    }
-
-    do {
-        val nextBoard = prevBoard.makeMove()
-    } (while nextBoard.)
-
+    makeMoveLoop(Board())
 }
 
-fun getMove() {
+fun makeMove(board: Board): Board {
     val (a, b) = readLine()!!.split(' ')
     println("${a.toInt()}  ${b.toInt()}")
+    return board.makeMove(a.toInt(), b.toInt())
+}
+
+fun makeMoveLoop(board: Board): Board {
+    println(board)
+
+    // is game over?
+    if (board.isTie()){
+        println("Game ends in tie!")
+        return board
+    }
+    if (board.hasPlayerWon(board.playerOneKey)) {
+        println("Player ${board.playerOneKey} has won!")
+        return board
+    }
+    if (board.hasPlayerWon(board.playerTwoKey)) {
+        println("Player ${board.playerTwoKey} has won!")
+        return board
+    }
+
+    // make move
+    return makeMoveLoop(makeMove(board))
 }

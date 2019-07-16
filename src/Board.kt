@@ -14,7 +14,7 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
         """.trimIndent()
     }
 
-    fun makeMove(x: Int, y: Int, playerKey: Char): Board {
+    fun makeMove(x: Int, y: Int): Board {
         // is this an insane way to do exception checking....?
         when {
             (x < 0 || x > 2 || y < 0 || y > 2) -> throw InvalidMoveException("Illegal move out of bounds $x $y")
@@ -24,7 +24,7 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
             isTie() -> GameOverException("Game over because tie")
         }
 
-        return Board(boardState.mapIndexed { i, it -> if (i == coordToPos(x, y)) playerKey else it })
+        return Board(boardState.mapIndexed { i, it -> if (i == coordToPos(x, y)) getNextPlayer() else it })
     }
 
     fun isOver() = hasPlayerWon(playerOneKey) || hasPlayerWon(playerTwoKey) || isTie()
