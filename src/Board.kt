@@ -1,4 +1,6 @@
 class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, null, null, null, null)) {
+    val playerOneKey = 'X'
+    val playerTwoKey = 'Y'
 
     override fun toString(): String {
         return """
@@ -13,19 +15,19 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
     }
 
     fun makeMove(x: Int, y: Int, playerKey: Char): Board {
-        if (x < 0 || x > 2 || y < 0 || y > 2) {
-            throw InvalidMoveException("Illegal move out of bounds $x $y")
-        }
-        if (stateAt(x, y) != null) {
-            throw InvalidMoveException("Space $x $y already has move ${stateAt(x, y)}")
+        // is this an insane way to do exception checking....?
+        when {
+            (x < 0 || x > 2 || y < 0 || y > 2) -> throw InvalidMoveException("Illegal move out of bounds $x $y")
+            stateAt(x, y) != null -> throw InvalidMoveException("Space $x $y already has move ${stateAt(x, y)}")
+            hasPlayerWon(playerOneKey) -> GameOverException("Game over because $playerOneKey won")
+            hasPlayerWon(playerTwoKey) -> GameOverException("Game over because $playerTwoKey won")
+            isTie() -> GameOverException("Game over because tie")
         }
 
         return Board(boardState.mapIndexed { i, it -> if (i == coordToPos(x, y)) playerKey else it })
     }
 
-    fun isOver(): Boolean {
-        return true
-    }
+    fun isOver() = hasPlayerWon(playerOneKey) || hasPlayerWon(playerTwoKey) || isTie()
 
     fun hasPlayerWon(playerKey: Char): Boolean {
         return WINNING_STATES.any {
@@ -54,3 +56,4 @@ val WINNING_STATES : List<List<Boolean>> = listOf(
 )
 
 class InvalidMoveException(message:String): Exception(message)
+class GameOverException(message: String): Exception(message)
