@@ -2,18 +2,6 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
     val playerOneKey = 'X'
     val playerTwoKey = 'Y'
 
-    override fun toString(): String {
-        return """
-
-
-             ${boardState[0] ?: " "} | ${boardState[1] ?: " "} | ${boardState[2] ?: " "}
-            -----------
-             ${boardState[3] ?: " "} | ${boardState[4] ?: " "} | ${boardState[5] ?: " "}
-            -----------
-             ${boardState[6] ?: " "} | ${boardState[7] ?: " "} | ${boardState[8] ?: " "}
-        """.trimIndent()
-    }
-
     fun makeMove(x: Int, y: Int): Board {
         // is this an insane way to do exception checking....?
         when {
@@ -35,14 +23,25 @@ class Board(var boardState : List<Char?> = listOf(null, null, null, null, null, 
 
     fun isTie() = boardState.all { it != null }
 
+    fun getNextPlayer() = if (getTurnNumber() % 2 == 0) playerOneKey else playerTwoKey
+
+    override fun toString(): String {
+        return """
+
+
+             ${boardState[0] ?: " "} | ${boardState[1] ?: " "} | ${boardState[2] ?: " "}
+            -----------
+             ${boardState[3] ?: " "} | ${boardState[4] ?: " "} | ${boardState[5] ?: " "}
+            -----------
+             ${boardState[6] ?: " "} | ${boardState[7] ?: " "} | ${boardState[8] ?: " "}
+        """.trimIndent()
+    }
+
     private fun coordToPos(x: Int, y: Int) = y * 3 + x
 
     private fun stateAt(x: Int, y: Int) = boardState[coordToPos(x, y)]
 
     private fun getTurnNumber() = boardState.filter { it != null }.count()
-
-    fun getNextPlayer() = if (getTurnNumber() % 2 == 0) playerOneKey else playerTwoKey
-
 }
 
 val WINNING_STATES : List<List<Boolean>> = listOf(
